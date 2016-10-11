@@ -7,13 +7,13 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Failable{
     @Id
     @GeneratedValue
     int id;
 
     @Column(nullable = false, unique = true)
-    String userName;
+    String username;
 
     @Column(nullable = false)
     String password;
@@ -29,12 +29,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -56,13 +56,13 @@ public class User {
     public User() {
     }
 
-    public User(String userName, String password) {
-        this.userName = userName;
+    public User(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 
-    public User(String userName, String password, String email) {
-        this.userName = userName;
+    public User(String username, String password, String email) {
+        this.username = username;
         this.password = password;
         this.email = email;
     }
