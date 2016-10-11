@@ -15,7 +15,7 @@ public class RESTController {
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public User register(User newUser) throws Exception{
-        User userToBeAdded = new User(newUser.username, newUser.password);
+        User userToBeAdded = new User(newUser.userName, newUser.password);
         userToBeAdded = users.save(userToBeAdded);
 
         return userToBeAdded;
