@@ -43,6 +43,15 @@ public class RESTController {
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     public Failable login(@RequestBody User newUser) throws Exception{
+        if(newUser.username == null && newUser.password == null){
+            return new Error("Please enter a username and password");
+        }
+        if(newUser.username == null){
+            return new Error("Please enter a username");
+        }
+        if(newUser.password == null){
+            return new Error("Please enter a password");
+        }
         try {
             User loginUser = users.findByUsernameAndPassword(newUser.username, newUser.password);
 
