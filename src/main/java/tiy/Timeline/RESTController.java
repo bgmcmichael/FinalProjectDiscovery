@@ -15,18 +15,40 @@ public class RESTController {
     UserRepository users;
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
-    public User register(@RequestBody  User newUser) throws Exception{
-        User userToBeAdded = new User(newUser.username, newUser.password);
-        userToBeAdded = users.save(userToBeAdded);
+    public Failable register(@RequestBody  User newUser) throws Exception{
+        if(users.findByEmail(newUser.email) != null){
+            return new Error("Email is already in use");
+        }
+        if(users.findByUsername(newUser.username) != null){
+            return new Error("Username is already in use");
+        }
+        if(newUser.username == null && newUser.password == null){
+            return new Error("Please enter a username and password");
+        }
+        if(newUser.username == null){
+            return new Error("Please enter a username");
+        }
+        if(newUser.password == null){
+            return new Error("Please enter a password");
+        }
+        if(newUser.username != null && newUser.password != null) {
+            User userToBeAdded = new User(newUser.username, newUser.password);
+            userToBeAdded = users.save(userToBeAdded);
 
-        return userToBeAdded;
+            return userToBeAdded;
+        }
+
+        return new Error("Critical error");
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public User login(@RequestBody User newUser) throws Exception{
-        User loginUser = users.findByUsernameAndPassword(newUser.username, newUser.password);
+    public Failable login(@RequestBody User newUser) throws Exception{
+        try {
+            User loginUser = users.findByUsernameAndPassword(newUser.username, newUser.password);
 
-
-        return loginUser;
+            return loginUser;
+        } catch (Exception ex){
+            return new Error("Could not find user");
+        }
     }
 }
