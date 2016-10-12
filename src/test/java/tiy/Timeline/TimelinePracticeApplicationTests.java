@@ -59,7 +59,7 @@ public class TimelinePracticeApplicationTests {
 			dbResponse = testController.login(errorTestUser);
 
 			assertNotNull(dbResponse);
-			assertEquals("Could not find user",((Error)dbResponse).errorMessage);
+			assertEquals("Invalid credentials, please try again",((Error)dbResponse).errorMessage);
 		} catch (Exception ex){
 
 		} finally {

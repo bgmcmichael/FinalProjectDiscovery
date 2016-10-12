@@ -66,7 +66,7 @@ public class RESTController {
         } catch (Exception ex){
 
         }
-        return new Error("Could not find user");
+        return new Error("Invalid credentials, please try again");
     }
 
 }
