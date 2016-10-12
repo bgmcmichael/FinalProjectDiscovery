@@ -27,7 +27,7 @@ public class TimelinePracticeApplicationTests {
 
 	@Test
 	public void registerTest() throws Exception {
-		User testUser = new User("john doe", "password");
+		UserPlaceholder testUser = new UserPlaceholder("john doe", "password");
 		Failable dbResponse = null;
 		try {
 			dbResponse = testController.register(testUser);
@@ -44,12 +44,12 @@ public class TimelinePracticeApplicationTests {
 
 	@Test
 	public void loginTest() throws Exception {
-		User testUser = new User("john doe", "password");
-		User errorTestUser = new User("IdontExist", "password");
+		UserPlaceholder testUser = new UserPlaceholder("john doe", "password");
+		UserPlaceholder errorTestUser = new UserPlaceholder("IdontExist", "password");
 		Failable dbResponse = null;
 		try {
 			dbResponse = testController.register(testUser);
-			dbResponse = testController.login(((User)dbResponse));
+			dbResponse = testController.login(((UserPlaceholder) dbResponse));
 			dbResponse = users.findOne(((User)dbResponse).getId());
 
 			assertNotNull(dbResponse);

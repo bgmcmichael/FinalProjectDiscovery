@@ -20,7 +20,7 @@ public class RESTController {
     UserRepository users;
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
-    public Failable register(@RequestBody  User newUser) throws Exception{
+    public Failable register(@RequestBody UserPlaceholder newUser) throws Exception{
         if(users.findByEmail(newUser.email) != null){
             return new Error("Email is already in use");
         }
@@ -47,7 +47,7 @@ public class RESTController {
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public Failable login(@RequestBody User newUser) throws Exception{
+    public Failable login(@RequestBody UserPlaceholder newUser) throws Exception{
         if(newUser.username == null && newUser.password == null){
             return new Error("Please enter a username and password");
         }
