@@ -45,6 +45,7 @@ public class TimelinePracticeApplicationTests {
 	@Test
 	public void loginTest() throws Exception {
 		User testUser = new User("john doe", "password");
+		User errorTestUser = new User("IdontExist", "password");
 		Failable dbResponse = null;
 		try {
 			dbResponse = testController.register(testUser);
@@ -53,6 +54,12 @@ public class TimelinePracticeApplicationTests {
 
 			assertNotNull(dbResponse);
 			assertEquals("john doe", ((User)dbResponse).username);
+
+			dbResponse = null;
+			dbResponse = testController.login(errorTestUser);
+
+			assertNotNull(dbResponse);
+			assertEquals("Could not find user",((Error)dbResponse).errorMessage);
 		} catch (Exception ex){
 
 		} finally {

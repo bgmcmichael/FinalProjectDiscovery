@@ -6,6 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+
 /**
  * Created by fenji on 10/10/2016.
  */
@@ -52,12 +57,16 @@ public class RESTController {
         if(newUser.password == null){
             return new Error("Please enter a password");
         }
+        User loginUser;
         try {
-            User loginUser = users.findByUsernameAndPassword(newUser.username, newUser.password);
-
-            return loginUser;
+            loginUser = users.findByUsernameAndPassword(newUser.username, newUser.password);
+            if(loginUser != null){
+                return loginUser;
+            }
         } catch (Exception ex){
-            return new Error("Could not find user");
+
         }
+        return new Error("Could not find user");
     }
+
 }
