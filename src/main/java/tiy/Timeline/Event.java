@@ -3,6 +3,7 @@ package tiy.Timeline;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 
 /**
@@ -20,11 +21,11 @@ public class Event implements Failable{
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column
-    ZonedDateTime startDate;
+    OffsetDateTime startDate;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column
-    ZonedDateTime endDate;
+    OffsetDateTime endDate;
 
     @Column
     String timezoneCreatedIn;
@@ -51,19 +52,19 @@ public class Event implements Failable{
         this.name = name;
     }
 
-    public ZonedDateTime getStartDate() {
+    public OffsetDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(ZonedDateTime startDate) {
+    public void setStartDate(OffsetDateTime startDate) {
         this.startDate = startDate;
     }
 
-    public ZonedDateTime getEndDate() {
+    public OffsetDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(ZonedDateTime endDate) {
+    public void setEndDate(OffsetDateTime endDate) {
         this.endDate = endDate;
     }
 
@@ -94,7 +95,7 @@ public class Event implements Failable{
     public Event() {
     }
 
-    public Event(String name, ZonedDateTime startDate, ZonedDateTime endDate, String timezoneCreatedIn, String details, User owner) {
+    public Event(String name, OffsetDateTime startDate, OffsetDateTime endDate, String timezoneCreatedIn, String details, User owner) {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;

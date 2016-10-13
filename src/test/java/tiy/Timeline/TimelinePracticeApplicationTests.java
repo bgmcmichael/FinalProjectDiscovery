@@ -7,9 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -79,12 +77,13 @@ public class TimelinePracticeApplicationTests {
 			User user = new User("john", "doe", "john@doe.email");
 			user = users.save(user);
 			Event event1;
-			ZonedDateTime date1;
+			OffsetDateTime date1;
 			String zoneId = "GMT";
+			ZoneOffset zoneOffset = ZoneOffset.of("GMT");
 			ZoneId zoneId1 = ZoneId.of("GMT");
 			LocalDateTime now = LocalDateTime.now();
 
-			date1 = ZonedDateTime.of(now, zoneId1);
+			date1 = OffsetDateTime.of(now, zoneOffset);
 			event1 = new Event("event1", date1, date1.plusHours(1), zoneId, "details1", user);
 			ArrayList<Failable> eventList = testController.addEvent(event1);
 			assertEquals(event1.name,((Event)eventList.get(0)).getName());
@@ -104,13 +103,14 @@ public class TimelinePracticeApplicationTests {
 
 			String zoneId = "GMT";
 			ZoneId zoneId1 = ZoneId.of("GMT");
-			ZonedDateTime date1, date2, date3;
+			ZoneOffset zoneOffset = ZoneOffset.of("GMT");
+			OffsetDateTime date1, date2, date3;
 			Event event1, event2, event3;
 			LocalDateTime now = LocalDateTime.now();
 
-			date1 = ZonedDateTime.of(now, zoneId1);
-			date2 = ZonedDateTime.of(now.plusHours(1), zoneId1);
-			date3 = ZonedDateTime.of(now.plusHours(2), zoneId1);
+			date1 = OffsetDateTime.of(now, zoneOffset);
+			date2 = OffsetDateTime.of(now.plusHours(1), zoneOffset);
+			date3 = OffsetDateTime.of(now.plusHours(2), zoneOffset);
 
 			user = users.save(user);
 
