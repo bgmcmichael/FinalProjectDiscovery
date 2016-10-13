@@ -6,10 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by fenji on 10/10/2016.
@@ -18,6 +16,9 @@ import java.time.ZonedDateTime;
 public class RESTController {
     @Autowired
     UserRepository users;
+
+    @Autowired
+    EventRepository events;
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public Failable register(@RequestBody UserPlaceholder newUser) throws Exception{
@@ -67,6 +68,23 @@ public class RESTController {
 
         }
         return new Error("Invalid credentials, please try again");
+    }
+
+    @RequestMapping(path = "/addEvent", method = RequestMethod.POST)
+    public ArrayList<Failable> addEvent(@RequestBody Event newEvent) throws Exception {
+        newEvent = events.save(newEvent);
+        User tempUser = newEvent.getOwner();
+        UserPlaceholder userBox = new UserPlaceholder();
+        userBox.username = tempUser.username;
+        return getEvents(userBox);
+    }
+
+    @RequestMapping(path = "/events", method = RequestMethod.POST)
+    public ArrayList<Failable> getEvents(@RequestBody UserPlaceholder userBox) throws Exception {
+        User eventOwner = users.findByUsername(userBox.username);
+        Collection<Event> tempList = events.findByOwnerOrderByStartDateAsc(eventOwner);
+        ArrayList<Failable> eventList = new ArrayList<Failable>(tempList);
+        return  eventList;
     }
 
 }
