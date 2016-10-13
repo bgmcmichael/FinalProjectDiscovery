@@ -1,5 +1,7 @@
 package tiy.Timeline;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 
@@ -16,9 +18,11 @@ public class Event implements Failable{
     @Column
     String name;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column
     ZonedDateTime startDate;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column
     ZonedDateTime endDate;
 

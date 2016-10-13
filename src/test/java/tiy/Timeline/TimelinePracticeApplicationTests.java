@@ -88,7 +88,7 @@ public class TimelinePracticeApplicationTests {
 			event1 = new Event("event1", date1, date1.plusHours(1), zoneId, "details1", user);
 			ArrayList<Failable> eventList = testController.addEvent(event1);
 			assertEquals(event1.name,((Event)eventList.get(0)).getName());
-			
+
 		}catch (Exception ex){
 
 		}finally {
