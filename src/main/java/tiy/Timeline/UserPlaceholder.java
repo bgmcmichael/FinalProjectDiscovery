@@ -49,6 +49,10 @@ public class UserPlaceholder implements Failable{
     public UserPlaceholder() {
     }
 
+    public UserPlaceholder(String username) {
+        this.username = username;
+    }
+
     public UserPlaceholder(String username, String password) {
         this.username = username;
         this.password = password;

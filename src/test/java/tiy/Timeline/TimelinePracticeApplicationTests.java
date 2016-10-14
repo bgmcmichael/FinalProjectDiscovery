@@ -74,8 +74,7 @@ public class TimelinePracticeApplicationTests {
 	@Test
 	public void addEventTest() throws Exception {
 		try {
-			User user = new User("john", "doe", "john@doe.email");
-			user = users.save(user);
+			UserPlaceholder user = new UserPlaceholder("john");
 			EventPlaceholder event1;
 			ZonedDateTime date1;
 			String zoneId = "GMT";

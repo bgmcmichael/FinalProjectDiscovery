@@ -22,7 +22,7 @@ public class EventPlaceholder implements Failable{
 
     String details;
 
-    User owner;
+    UserPlaceholder owner;
 
     public int getId() {
         return id;
@@ -72,18 +72,18 @@ public class EventPlaceholder implements Failable{
         this.details = details;
     }
 
-    public User getOwner() {
+    public UserPlaceholder getOwner() {
         return owner;
     }
 
-    public void setOwner(User owner) {
+    public void setOwner(UserPlaceholder owner) {
         this.owner = owner;
     }
 
     public EventPlaceholder() {
     }
 
-    public EventPlaceholder(String name, String startDate, String endDate, String timezoneCreatedIn, String details, User owner) {
+    public EventPlaceholder(String name, String startDate, String endDate, String timezoneCreatedIn, String details, UserPlaceholder owner) {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;

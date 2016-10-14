@@ -85,15 +85,17 @@ public class RESTController {
         ZonedDateTime startDateZoned = ZonedDateTime.parse(newEventPlaceholder.startDate, DateTimeFormatter.ISO_ZONED_DATE_TIME);
         ZonedDateTime endDateZoned = ZonedDateTime.parse(newEventPlaceholder.endDate, DateTimeFormatter.ISO_ZONED_DATE_TIME);
 
+        User tempUser = users.findByUsername(newEventPlaceholder.owner.username);
+
         newEvent.startDate = startDateZoned;
         newEvent.endDate = endDateZoned;
         newEvent.details = newEventPlaceholder.details;
         newEvent.name = newEventPlaceholder.name;
-        newEvent.owner = newEventPlaceholder.owner;
+        newEvent.owner = tempUser;
         newEvent.timezoneCreatedIn = newEventPlaceholder.timezoneCreatedIn;
         newEvent = events.save(newEvent);
 
-        User tempUser = newEvent.getOwner();
+        tempUser = newEvent.getOwner();
         UserPlaceholder userBox = new UserPlaceholder();
         userBox.username = tempUser.username;
         return getEvents(userBox);
@@ -133,5 +135,5 @@ public class RESTController {
     }
 
 //    @RequestMapping(path = "/contacts", method = RequestMethod.POST)
-    
+
 }
