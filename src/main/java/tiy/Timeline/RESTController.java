@@ -24,6 +24,9 @@ public class RESTController {
     @Autowired
     EventRepository events;
 
+    @Autowired
+    ContactRepository contacts;
+
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public Failable register(@RequestBody UserPlaceholder newUser) throws Exception{
         if(users.findByEmail(newUser.email) != null){
@@ -104,4 +107,31 @@ public class RESTController {
         return  eventList;
     }
 
+    @RequestMapping(path = "/deleteContact", method = RequestMethod.POST)
+    public Failable deleteContact(@RequestBody UserPlaceholder receiverBox) {
+        User receiver = users.findByUsername(receiverBox.username);
+        Contact contact1 = contacts.findByReceiver(receiver);
+        Contact contact2 = contacts.findByReceiver(contact1.sender);
+        contacts.delete(contact1);
+        contacts.delete(contact2);
+
+        return new Error("Contact deleted");
+    }
+
+    @RequestMapping(path = "/addContact", method = RequestMethod.POST)
+    public Failable addContact(@RequestBody UserPlaceholder userBox) {
+        User receiver = users.findByUsername(userBox.username);
+        Contact contact1 = contacts.findByReceiver(receiver);
+        User sender = contact1.sender;
+        Contact contact2 = new Contact(receiver, sender, true);
+
+        contact1.accepted = true;
+        contacts.save(contact1);
+        contacts.save(contact2);
+
+        return new Error("Contact added");
+    }
+
+//    @RequestMapping(path = "/contacts", method = RequestMethod.POST)
+    
 }
