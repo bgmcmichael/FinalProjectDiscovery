@@ -1,11 +1,15 @@
 package tiy.Timeline;
 
+import jdk.nashorn.internal.parser.DateParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -71,8 +75,21 @@ public class RESTController {
     }
 
     @RequestMapping(path = "/addEvent", method = RequestMethod.POST)
-    public ArrayList<Failable> addEvent(@RequestBody Event newEvent) throws Exception {
+    public ArrayList<Failable> addEvent(@RequestBody EventPlaceholder newEventPlaceholder) throws Exception {
+        Event newEvent = new Event();
+        newEventPlaceholder.startDate = newEventPlaceholder.startDate + "[GMT]";
+        newEventPlaceholder.endDate = newEventPlaceholder.endDate + "[GMT]";
+        ZonedDateTime startDateZoned = ZonedDateTime.parse(newEventPlaceholder.startDate, DateTimeFormatter.ISO_ZONED_DATE_TIME);
+        ZonedDateTime endDateZoned = ZonedDateTime.parse(newEventPlaceholder.endDate, DateTimeFormatter.ISO_ZONED_DATE_TIME);
+
+        newEvent.startDate = startDateZoned;
+        newEvent.endDate = endDateZoned;
+        newEvent.details = newEventPlaceholder.details;
+        newEvent.name = newEventPlaceholder.name;
+        newEvent.owner = newEventPlaceholder.owner;
+        newEvent.timezoneCreatedIn = newEventPlaceholder.timezoneCreatedIn;
         newEvent = events.save(newEvent);
+
         User tempUser = newEvent.getOwner();
         UserPlaceholder userBox = new UserPlaceholder();
         userBox.username = tempUser.username;

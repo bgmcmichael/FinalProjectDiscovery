@@ -3,36 +3,25 @@ package tiy.Timeline;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.ZonedDateTime;
+import java.time.OffsetDateTime;
 
 /**
  * Created by fenji on 10/11/2016.
  */
-@Entity
-@Table(name = "events")
-public class Event implements Failable{
-    @Id
-    @GeneratedValue
+
+public class EventPlaceholder implements Failable{
     int id;
 
-    @Column
     String name;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @Column
-    ZonedDateTime startDate;
+    String startDate;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @Column
-    ZonedDateTime endDate;
+    String endDate;
 
-    @Column
     String timezoneCreatedIn;
 
-    @Column
     String details;
 
-    @ManyToOne
     User owner;
 
     public int getId() {
@@ -51,19 +40,19 @@ public class Event implements Failable{
         this.name = name;
     }
 
-    public ZonedDateTime getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(ZonedDateTime startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public ZonedDateTime getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(ZonedDateTime endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
@@ -91,10 +80,10 @@ public class Event implements Failable{
         this.owner = owner;
     }
 
-    public Event() {
+    public EventPlaceholder() {
     }
 
-    public Event(String name, ZonedDateTime startDate, ZonedDateTime endDate, String timezoneCreatedIn, String details, User owner) {
+    public EventPlaceholder(String name, String startDate, String endDate, String timezoneCreatedIn, String details, User owner) {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
