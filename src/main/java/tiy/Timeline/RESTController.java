@@ -106,7 +106,13 @@ public class RESTController {
         User eventOwner = users.findByUsername(userBox.username);
         Collection<Event> tempList = events.findByOwnerOrderByStartDateAsc(eventOwner);
         ArrayList<Failable> eventList = new ArrayList<Failable>(tempList);
-        return  eventList;
+        ArrayList<Failable> eventPlaceholderList = new ArrayList<>();
+
+        for(Failable event : eventList){
+            Event thisEvent = (Event)event;
+            eventPlaceholderList.add(new EventPlaceholder(thisEvent));
+        }
+        return  eventPlaceholderList;
     }
 
     @RequestMapping(path = "/deleteContact", method = RequestMethod.POST)
