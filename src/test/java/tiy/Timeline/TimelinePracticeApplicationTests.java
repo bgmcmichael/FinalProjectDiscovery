@@ -77,7 +77,9 @@ public class TimelinePracticeApplicationTests {
 	@Test
 	public void addEventTest() throws Exception {
 		try {
-			UserPlaceholder user = new UserPlaceholder("john");
+			User user = new User("john", "doe", "john@doe.com");
+			user = users.save(user);
+			UserPlaceholder userBox = new UserPlaceholder(user.username);
 			EventPlaceholder event1;
 			ZonedDateTime date1;
 			String zoneId = "GMT";
@@ -85,12 +87,12 @@ public class TimelinePracticeApplicationTests {
 			LocalDateTime now = LocalDateTime.now();
 
 			date1 = ZonedDateTime.of(now, zoneId1);
-			event1 = new EventPlaceholder("event1", "2016-05-06T02:15:00Z", "2016-05-06T03:15:00Z", zoneId, "details1", user);
+			event1 = new EventPlaceholder("event1", "2016-05-06T02:15:00Z", "2016-05-06T03:15:00Z", zoneId, "details1", userBox);
 			Failable dbEvent = testController.addEvent(event1);
-			assertEquals(event1.name,((Event)dbEvent).getName());
+			assertEquals(event1.name,((EventPlaceholder)dbEvent).getName());
 
 		}catch (Exception ex){
-
+			fail();
 		}finally {
 			events.deleteAll();
 			users.deleteAll();
