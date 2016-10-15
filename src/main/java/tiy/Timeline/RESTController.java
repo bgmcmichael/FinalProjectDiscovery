@@ -81,11 +81,16 @@ public class RESTController {
     public Failable addEvent(@RequestBody EventPlaceholder newEventPlaceholder) throws Exception {
         Event newEvent = new Event();
         newEventPlaceholder.startDate = newEventPlaceholder.startDate + "[GMT]";
+        System.out.println("startDate = " + newEventPlaceholder.startDate);
         newEventPlaceholder.endDate = newEventPlaceholder.endDate + "[GMT]";
+        System.out.println("endDate = " + newEventPlaceholder.endDate);
         ZonedDateTime startDateZoned = ZonedDateTime.parse(newEventPlaceholder.startDate, DateTimeFormatter.ISO_ZONED_DATE_TIME);
+        System.out.println("startDateZoned = " + startDateZoned.toString());
         ZonedDateTime endDateZoned = ZonedDateTime.parse(newEventPlaceholder.endDate, DateTimeFormatter.ISO_ZONED_DATE_TIME);
+        System.out.println("endDateZoned = " + endDateZoned.toString());
 
         User tempUser = users.findByUsername(newEventPlaceholder.owner.username);
+        System.out.println("tempUser username = " + tempUser.username);
 
         newEvent.startDate = startDateZoned;
         newEvent.endDate = endDateZoned;
@@ -93,9 +98,12 @@ public class RESTController {
         newEvent.name = newEventPlaceholder.name;
         newEvent.owner = tempUser;
         newEvent.timezoneCreatedIn = newEventPlaceholder.timezoneCreatedIn;
+        System.out.println("saving new event");
         newEvent = events.save(newEvent);
+        System.out.println("newEvent exists in database with name = " + newEvent.name);
 
         newEventPlaceholder = new EventPlaceholder(newEvent);
+        System.out.println("newEventPlaceholder name now = " + newEventPlaceholder.name);
         return newEventPlaceholder;
     }
 

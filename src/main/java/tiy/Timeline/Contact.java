@@ -1,6 +1,7 @@
 package tiy.Timeline;
 
 import org.hibernate.annotations.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -24,6 +25,9 @@ public class Contact implements Failable {
 
     @Column
     boolean accepted;
+
+    @Autowired
+    UserRepository users;
 
     public int getId() {
         return id;
@@ -61,6 +65,14 @@ public class Contact implements Failable {
     }
 
     public Contact(User sender, User receiver) {
+        this.sender = sender;
+        this.receiver = receiver;
+        accepted = false;
+    }
+
+    public Contact(UserPlaceholder senderBox, UserPlaceholder receiverBox) {
+        User sender = users.findByUsername(senderBox.username);
+        User receiver = users.findByUsername(receiverBox.username);
         this.sender = sender;
         this.receiver = receiver;
         accepted = false;
