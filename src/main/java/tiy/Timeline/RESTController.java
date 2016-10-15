@@ -12,6 +12,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Created by fenji on 10/10/2016.
@@ -108,6 +109,7 @@ public class RESTController {
         newEventPlaceholder = new EventPlaceholder(newEvent);
         System.out.println("newEventPlaceholder name now = " + newEventPlaceholder.name);
         System.out.println("newEventPlaceholder timezoneCreatedIn now = " + newEventPlaceholder.timezoneCreatedIn);
+        System.out.println(newEventPlaceholder.startDate);
         return newEventPlaceholder;
     }
 
@@ -148,6 +150,22 @@ public class RESTController {
         contacts.save(contact2);
 
         return new Error("Contact added");
+    }
+
+    @RequestMapping(path = "/mergeTimelines", method = RequestMethod.POST)
+    public ArrayList<Failable> mergeTimelines(ArrayList<UserPlaceholder> userBoxList){
+        ArrayList<String> usernameList = new ArrayList<>();
+        for(UserPlaceholder userPlaceholder : userBoxList){
+            usernameList.add(userPlaceholder.username);
+        }
+        ArrayList<User> userList = users.findByUsernameIn(usernameList);
+        ArrayList<Event> tempList = events.findByOwnerInOrderByStartDateAsc(userList);
+        ArrayList<Failable> eventList = new ArrayList<>();
+        for (Event event : tempList){
+            eventList.add(new EventPlaceholder(event));
+        }
+
+        return eventList;
     }
 
 //    @RequestMapping(path = "/contacts", method = RequestMethod.POST)

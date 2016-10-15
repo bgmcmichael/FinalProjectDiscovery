@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by fenji on 10/11/2016.
@@ -84,11 +85,13 @@ public class EventPlaceholder implements Failable{
     }
 
     public EventPlaceholder(Event event) {
+
+        DateTimeFormatter isoFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
         this.id = event.id;
         this.name = event.name;
         this.timezoneCreatedIn = event.timezoneCreatedIn;
-        this.startDate = event.startDate.toString();
-        this.endDate = event.endDate.toString();
+        this.startDate = isoFormatter.format(event.startDate);
+        this.endDate = isoFormatter.format(event.endDate);
         this.details = event.details;
         int tempInt = event.owner.id;
         String tempString = event.owner.username;

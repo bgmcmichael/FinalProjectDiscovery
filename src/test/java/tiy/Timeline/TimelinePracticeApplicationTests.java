@@ -183,6 +183,56 @@ public class TimelinePracticeApplicationTests {
 		}
 	}
 
+	@Test
+	public void mergeTimelinesTest() throws Exception {
+		try {
+			User user1 = new User("john", "doe", "john@doe.email");
+			User user2 = new User("jane", "doe", "jane@doe.email");
+			UserPlaceholder userBox1 = new UserPlaceholder(user1.username);
+			UserPlaceholder userBox2 = new UserPlaceholder(user2.username);
+
+			ArrayList<UserPlaceholder> userBoxList = new ArrayList<>();
+			userBoxList.add(userBox1);
+			userBoxList.add(userBox2);
+
+			String zoneId = "GMT";
+			ZoneId zoneId1 = ZoneId.of("GMT");
+			ZonedDateTime date1, date2, date3;
+			Event event1, event2, event3;
+			LocalDateTime now = LocalDateTime.now();
+
+			date1 = ZonedDateTime.of(now, zoneId1);
+			date2 = ZonedDateTime.of(now.plusHours(1), zoneId1);
+			date3 = ZonedDateTime.of(now.plusHours(2), zoneId1);
+
+			user1 = users.save(user1);
+			user2 = users.save(user2);
+
+			event1 = new Event("event1", date1, date1.plusHours(1), zoneId, "details1", user1);
+			event2 = new Event("event2", date2, date2.plusHours(1), zoneId, "details2", user2);
+			event3 = new Event("event3", date3, date3.plusHours(1), zoneId, "details3", user1);
+
+
+			events.save(event1);
+			events.save(event3);
+			events.save(event2);
+
+			ArrayList<Failable> orderedArray = testController.mergeTimelines(userBoxList);
+
+			int eventCounter = 1;
+			for (Failable event : orderedArray) {
+				assertEquals(("event" + eventCounter), ((EventPlaceholder)event).name);
+				eventCounter++;
+			}
+
+		}catch (Exception ex){
+			fail();
+		} finally {
+			events.deleteAll();
+			users.deleteAll();
+		}
+	}
+
 //	@Test
 //	public void requestContactTest() {
 //		try{
