@@ -79,6 +79,7 @@ public class RESTController {
 
     @RequestMapping(path = "/addEvent", method = RequestMethod.POST)
     public Failable addEvent(@RequestBody EventPlaceholder newEventPlaceholder) throws Exception {
+        System.out.println(newEventPlaceholder.timezoneCreatedIn);
         Event newEvent = new Event();
         newEventPlaceholder.startDate = newEventPlaceholder.startDate + "[GMT]";
         System.out.println("startDate = " + newEventPlaceholder.startDate);
