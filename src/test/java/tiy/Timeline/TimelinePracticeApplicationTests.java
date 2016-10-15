@@ -181,25 +181,25 @@ public class TimelinePracticeApplicationTests {
 		}
 	}
 
-	@Test
-	public void requestContactTest() {
-		try{
-			User user1 = new User("john", "doe", "john@doe.com");
-			User user2 = new User("Jane", "doe", "Jane@doe.com");
-
-			UserPlaceholder user1Box = new UserPlaceholder(user1.username);
-			UserPlaceholder user2Box = new UserPlaceholder(user2.username);
-
-			user1 = users.save(user1);
-			user2 = users.save(user2);
-
-			Contact testContact = new Contact(user1Box, user2Box);
-			Contact dbContact = contacts
-		}catch (Exception ex) {
-
-		}finally {
-
-		}
-	}
+//	@Test
+//	public void requestContactTest() {
+//		try{
+//			User user1 = new User("john", "doe", "john@doe.com");
+//			User user2 = new User("Jane", "doe", "Jane@doe.com");
+//
+//			UserPlaceholder user1Box = new UserPlaceholder(user1.username);
+//			UserPlaceholder user2Box = new UserPlaceholder(user2.username);
+//
+//			user1 = users.save(user1);
+//			user2 = users.save(user2);
+//
+//			Contact testContact = new Contact(user1Box, user2Box);
+//			Contact dbContact = contacts
+//		}catch (Exception ex) {
+//
+//		}finally {
+//
+//		}
+//	}
 
 }

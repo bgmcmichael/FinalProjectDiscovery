@@ -26,8 +26,8 @@ public class Contact implements Failable {
     @Column
     boolean accepted;
 
-    @Autowired
-    UserRepository users;
+//    @Autowired
+//    UserRepository users;
 
     public int getId() {
         return id;
@@ -70,13 +70,13 @@ public class Contact implements Failable {
         accepted = false;
     }
 
-    public Contact(UserPlaceholder senderBox, UserPlaceholder receiverBox) {
-        User sender = users.findByUsername(senderBox.username);
-        User receiver = users.findByUsername(receiverBox.username);
-        this.sender = sender;
-        this.receiver = receiver;
-        accepted = false;
-    }
+//    public Contact(UserPlaceholder senderBox, UserPlaceholder receiverBox) {
+//        User sender = users.findByUsername(senderBox.username);
+//        User receiver = users.findByUsername(receiverBox.username);
+//        this.sender = sender;
+//        this.receiver = receiver;
+//        accepted = false;
+//    }
 
     public Contact(User sender, User receiver, boolean accepted) {
         this.sender = sender;
