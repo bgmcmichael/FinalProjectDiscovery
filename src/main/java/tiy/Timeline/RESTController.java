@@ -98,12 +98,15 @@ public class RESTController {
         newEvent.name = newEventPlaceholder.name;
         newEvent.owner = tempUser;
         newEvent.timezoneCreatedIn = newEventPlaceholder.timezoneCreatedIn;
+        System.out.println("timezonecreatedin = " + newEvent.getTimezoneCreatedIn());
         System.out.println("saving new event");
         newEvent = events.save(newEvent);
         System.out.println("newEvent exists in database with name = " + newEvent.name);
+        System.out.println("timezonecreatedin = " + newEvent.timezoneCreatedIn);
 
         newEventPlaceholder = new EventPlaceholder(newEvent);
         System.out.println("newEventPlaceholder name now = " + newEventPlaceholder.name);
+        System.out.println("newEventPlaceholder timezoneCreatedIn now = " + newEventPlaceholder.timezoneCreatedIn);
         return newEventPlaceholder;
     }
 
