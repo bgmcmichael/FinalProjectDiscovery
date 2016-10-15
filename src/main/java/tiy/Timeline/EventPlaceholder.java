@@ -84,6 +84,7 @@ public class EventPlaceholder implements Failable{
     }
 
     public EventPlaceholder(Event event) {
+        this.id = event.id;
         this.name = event.name;
         this.timezoneCreatedIn = event.timezoneCreatedIn;
         this.startDate = event.startDate.toString();
