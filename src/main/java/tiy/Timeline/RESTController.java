@@ -78,7 +78,7 @@ public class RESTController {
     }
 
     @RequestMapping(path = "/addEvent", method = RequestMethod.POST)
-    public ArrayList<Failable> addEvent(@RequestBody EventPlaceholder newEventPlaceholder) throws Exception {
+    public Failable addEvent(@RequestBody EventPlaceholder newEventPlaceholder) throws Exception {
         Event newEvent = new Event();
         newEventPlaceholder.startDate = newEventPlaceholder.startDate + "[GMT]";
         newEventPlaceholder.endDate = newEventPlaceholder.endDate + "[GMT]";
@@ -95,10 +95,8 @@ public class RESTController {
         newEvent.timezoneCreatedIn = newEventPlaceholder.timezoneCreatedIn;
         newEvent = events.save(newEvent);
 
-        tempUser = newEvent.getOwner();
-        UserPlaceholder userBox = new UserPlaceholder();
-        userBox.username = tempUser.username;
-        return getEvents(userBox);
+        newEventPlaceholder = new EventPlaceholder(newEvent);
+        return newEventPlaceholder;
     }
 
     @RequestMapping(path = "/events", method = RequestMethod.POST)

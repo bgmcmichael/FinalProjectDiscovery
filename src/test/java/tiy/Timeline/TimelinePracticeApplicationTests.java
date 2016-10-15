@@ -82,9 +82,9 @@ public class TimelinePracticeApplicationTests {
 			LocalDateTime now = LocalDateTime.now();
 
 			date1 = ZonedDateTime.of(now, zoneId1);
-			event1 = new EventPlaceholder("event1", "2016-05-06T02:15:00Z[GMT]", "2016-05-06T03:15:00Z[GMT]", zoneId, "details1", user);
-			ArrayList<Failable> eventList = testController.addEvent(event1);
-			assertEquals(event1.name,((Event)eventList.get(0)).getName());
+			event1 = new EventPlaceholder("event1", "2016-05-06T02:15:00Z", "2016-05-06T03:15:00Z", zoneId, "details1", user);
+			Failable dbEvent = testController.addEvent(event1);
+			assertEquals(event1.name,((Event)dbEvent).getName());
 
 		}catch (Exception ex){
 
@@ -95,7 +95,7 @@ public class TimelinePracticeApplicationTests {
 	}
 
 	@Test
-	public void getEventsTest() throws Exception {
+	public void eventsDbTest() throws Exception {
 		try {
 			User user = new User("john", "doe", "john@doe.email");
 
@@ -126,6 +126,48 @@ public class TimelinePracticeApplicationTests {
 			}
 			for (Event event : dorderedArray) {
 				System.out.println(event.getName());
+			}
+
+		}catch (Exception ex){
+
+		} finally {
+			events.deleteAll();
+			users.deleteAll();
+		}
+	}
+
+	@Test
+	public void getEventsTest() throws Exception {
+		try {
+			User user = new User("john", "doe", "john@doe.email");
+			UserPlaceholder userBox = new UserPlaceholder(user.username);
+
+			String zoneId = "GMT";
+			ZoneId zoneId1 = ZoneId.of("GMT");
+			ZonedDateTime date1, date2, date3;
+			Event event1, event2, event3;
+			LocalDateTime now = LocalDateTime.now();
+
+			date1 = ZonedDateTime.of(now, zoneId1);
+			date2 = ZonedDateTime.of(now.plusHours(1), zoneId1);
+			date3 = ZonedDateTime.of(now.plusHours(2), zoneId1);
+
+			user = users.save(user);
+
+			event1 = new Event("event1", date1, date1.plusHours(1), zoneId, "details1", user);
+			event2 = new Event("event2", date2, date2.plusHours(1), zoneId, "details2", user);
+			event3 = new Event("event3", date3, date3.plusHours(1), zoneId, "details3", user);
+
+			events.save(event1);
+			events.save(event3);
+			events.save(event2);
+
+			ArrayList<Failable> orderedArray = testController.getEvents(userBox);
+
+			int eventCounter = 1;
+			for (Failable event : orderedArray) {
+				assertEquals(("event" + eventCounter), ((Event)event).name);
+				eventCounter++;
 			}
 
 		}catch (Exception ex){
