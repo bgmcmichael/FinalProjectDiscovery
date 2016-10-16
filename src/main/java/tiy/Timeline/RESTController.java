@@ -137,7 +137,7 @@ public class RESTController {
                 ZonedDateTime event2StartDate = ((Event)eventList.get(count + 1)).getStartDate();
                 if (event2StartDate.isAfter(event1EndDate)){
                     Event timeblock = new Event();
-                    timeblock.name = null;
+                    timeblock.name = "timeblock";
                     timeblock.startDate = event1EndDate;
                     timeblock.endDate = event2StartDate;
                     EventPlaceholder timeblockBox = new EventPlaceholder(timeblock);

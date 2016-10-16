@@ -181,7 +181,7 @@ public class TimelinePracticeApplicationTests {
 					eventCounter++;
 					everyOtherFlag = false;
 				} else {
-					assertEquals(null, ((EventPlaceholder) event).name);
+					assertEquals("timeblock", ((EventPlaceholder) event).name);
 					everyOtherFlag = true;
 				}
 			}
