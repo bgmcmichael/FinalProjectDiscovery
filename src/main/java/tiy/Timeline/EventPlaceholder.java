@@ -93,8 +93,18 @@ public class EventPlaceholder implements Failable{
         this.startDate = isoFormatter.format(event.startDate);
         this.endDate = isoFormatter.format(event.endDate);
         this.details = event.details;
-        int tempInt = event.owner.id;
-        String tempString = event.owner.username;
+        int tempInt;
+        try {
+            tempInt = event.owner.id;
+        } catch (Exception ex){
+            tempInt = 0;
+        }
+        String tempString;
+        try {
+            tempString = event.owner.username;
+        } catch (Exception ex){
+            tempString = "";
+        }
         this.owner = new UserPlaceholder(tempString);
         this.owner.id = tempInt;
         System.out.println("");
