@@ -232,7 +232,10 @@ public class TimelinePracticeApplicationTests {
 			events.save(event3);
 			events.save(event2);
 
-			ArrayList<Failable> orderedArray = testController.mergeTimelines(userBoxList);
+			UserPlaceholderContainer container = new UserPlaceholderContainer();
+			container.UserPlaceholderList = userBoxList;
+
+			ArrayList<Failable> orderedArray = testController.mergeTimelines(container);
 
 			int eventCounter = 1;
 			boolean everyOtherFlag = true;
