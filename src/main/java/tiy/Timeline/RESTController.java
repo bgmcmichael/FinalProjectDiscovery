@@ -113,40 +113,14 @@ public class RESTController {
         return newEventPlaceholder;
     }
 
-//    @RequestMapping(path = "/merge", method = RequestMethod.POST)
-//    public ArrayList<Failable> merge(@RequestBody Contact mergeUsers){
-//        //get the two users
-//        //find shared empty events
-//    }
-
     @RequestMapping(path = "/events", method = RequestMethod.POST)
     public ArrayList<Failable> getEvents(@RequestBody UserPlaceholder userBox) throws Exception {
         User eventOwner = users.findByUsername(userBox.username);
         Collection<Event> tempList = events.findByOwnerOrderByStartDateAsc(eventOwner);
         ArrayList<Failable> eventList = new ArrayList<Failable>(tempList);
-        ArrayList<Failable> eventPlaceholderList = new ArrayList<>();
-        for (int count = 0; count < eventList.size(); count++){
-            if (count == eventList.size() - 1){
-                EventPlaceholder thisEventPlaceholder = new EventPlaceholder((Event)eventList.get(count));
-                eventPlaceholderList.add(thisEventPlaceholder);
-            } else {
-                EventPlaceholder thisEventPlaceholder = new EventPlaceholder((Event)eventList.get(count));
-                eventPlaceholderList.add(thisEventPlaceholder);
 
-                ZonedDateTime event1EndDate = ((Event)eventList.get(count)).getEndDate();
-                ZonedDateTime event2StartDate = ((Event)eventList.get(count + 1)).getStartDate();
-                if (event2StartDate.isAfter(event1EndDate)){
-                    Event timeblock = new Event();
-                    timeblock.name = "timeblock";
-                    timeblock.startDate = event1EndDate;
-                    timeblock.endDate = event2StartDate;
-                    EventPlaceholder timeblockBox = new EventPlaceholder(timeblock);
-                    eventPlaceholderList.add(timeblockBox);
-                }
-            }
-        }
-
-        return  eventPlaceholderList;
+        TimeBlocker timeBlocker = new TimeBlocker();
+        return timeBlocker.addTimeblocks(eventList);
     }
 
     @RequestMapping(path = "/deleteContact", method = RequestMethod.POST)
@@ -175,19 +149,17 @@ public class RESTController {
     }
 
     @RequestMapping(path = "/mergeTimelines", method = RequestMethod.POST)
-    public ArrayList<Failable> mergeTimelines(ArrayList<UserPlaceholder> userBoxList){
+    public ArrayList<Failable> mergeTimelines(@RequestBody ArrayList<UserPlaceholder> userBoxList){
         ArrayList<String> usernameList = new ArrayList<>();
         for(UserPlaceholder userPlaceholder : userBoxList){
             usernameList.add(userPlaceholder.username);
         }
         ArrayList<User> userList = users.findByUsernameIn(usernameList);
-        ArrayList<Event> tempList = events.findByOwnerInOrderByStartDateAsc(userList);
-        ArrayList<Failable> eventList = new ArrayList<>();
-        for (Event event : tempList){
-            eventList.add(new EventPlaceholder(event));
-        }
+        Collection<Event> tempEventList = events.findByOwnerInOrderByStartDateAsc(userList);
+        ArrayList<Failable> eventList = new ArrayList<Failable>(tempEventList);
+        TimeBlocker timeBlocker = new TimeBlocker();
 
-        return eventList;
+        return timeBlocker.addTimeblocks(eventList);
     }
 
 //    @RequestMapping(path = "/contacts", method = RequestMethod.POST)

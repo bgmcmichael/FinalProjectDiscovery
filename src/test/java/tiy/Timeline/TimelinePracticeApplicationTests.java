@@ -208,20 +208,24 @@ public class TimelinePracticeApplicationTests {
 
 			String zoneId = "GMT";
 			ZoneId zoneId1 = ZoneId.of("GMT");
-			ZonedDateTime date1, date2, date3;
+			ZonedDateTime date1Start, date2Start, date3Start;
+			ZonedDateTime date1End, date2End, date3End;
 			Event event1, event2, event3;
 			LocalDateTime now = LocalDateTime.now();
 
-			date1 = ZonedDateTime.of(now, zoneId1);
-			date2 = ZonedDateTime.of(now.plusHours(1), zoneId1);
-			date3 = ZonedDateTime.of(now.plusHours(2), zoneId1);
+			date1Start = ZonedDateTime.of(now, zoneId1);
+			date1End = ZonedDateTime.of(now.plusHours(1), zoneId1);
+			date2Start = ZonedDateTime.of(now.plusHours(2), zoneId1);
+			date2End = ZonedDateTime.of(now.plusHours(3), zoneId1);
+			date3Start = ZonedDateTime.of(now.plusHours(4), zoneId1);
+			date3End = ZonedDateTime.of(now.plusHours(5), zoneId1);
 
 			user1 = users.save(user1);
 			user2 = users.save(user2);
 
-			event1 = new Event("event1", date1, date1.plusHours(1), zoneId, "details1", user1);
-			event2 = new Event("event2", date2, date2.plusHours(1), zoneId, "details2", user2);
-			event3 = new Event("event3", date3, date3.plusHours(1), zoneId, "details3", user1);
+			event1 = new Event("event1", date1Start, date1End, zoneId, "details1", user1);
+			event2 = new Event("event2", date2Start, date2End, zoneId, "details2", user2);
+			event3 = new Event("event3", date3Start, date3End, zoneId, "details3", user1);
 
 
 			events.save(event1);
@@ -231,9 +235,19 @@ public class TimelinePracticeApplicationTests {
 			ArrayList<Failable> orderedArray = testController.mergeTimelines(userBoxList);
 
 			int eventCounter = 1;
+			boolean everyOtherFlag = true;
 			for (Failable event : orderedArray) {
-				assertEquals(("event" + eventCounter), ((EventPlaceholder)event).name);
-				eventCounter++;
+				if (((EventPlaceholder)event).name == "event2"){
+					assertEquals(user2.username, ((EventPlaceholder) event).owner.username);
+				}
+				if(everyOtherFlag) {
+					assertEquals(("event" + eventCounter), ((EventPlaceholder) event).name);
+					eventCounter++;
+					everyOtherFlag = false;
+				} else {
+					assertEquals("timeblock", ((EventPlaceholder) event).name);
+					everyOtherFlag = true;
+				}
 			}
 
 		}catch (Exception ex){
