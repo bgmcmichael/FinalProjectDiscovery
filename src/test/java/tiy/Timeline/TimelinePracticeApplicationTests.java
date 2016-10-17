@@ -235,7 +235,7 @@ public class TimelinePracticeApplicationTests {
 			UserPlaceholderContainer container = new UserPlaceholderContainer();
 			container.UserPlaceholderList = userBoxList;
 
-			ArrayList<Failable> orderedArray = testController.mergeTimelines(container);
+			ArrayList<Failable> orderedArray = testController.mergeTimelines(userBoxList);
 
 			int eventCounter = 1;
 			boolean everyOtherFlag = true;

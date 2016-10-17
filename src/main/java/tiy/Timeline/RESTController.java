@@ -149,8 +149,8 @@ public class RESTController {
     }
 
     @RequestMapping(path = "/mergeTimelines", method = RequestMethod.POST)
-    public ArrayList<Failable> mergeTimelines(@RequestBody UserPlaceholderContainer container){
-        ArrayList<UserPlaceholder> userBoxList = container.UserPlaceholderList;
+    public ArrayList<Failable> mergeTimelines(@RequestBody ArrayList<UserPlaceholder> userBoxList){
+//        ArrayList<UserPlaceholder> userBoxList = container.UserPlaceholderList;
         ArrayList<String> usernameList = new ArrayList<>();
         for(UserPlaceholder userPlaceholder : userBoxList){
             usernameList.add(userPlaceholder.username);
