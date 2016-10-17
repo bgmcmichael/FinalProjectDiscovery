@@ -208,26 +208,32 @@ public class TimelinePracticeApplicationTests {
 
 			String zoneId = "GMT";
 			ZoneId zoneId1 = ZoneId.of("GMT");
-			ZonedDateTime date1Start, date2Start, date3Start;
-			ZonedDateTime date1End, date2End, date3End;
-			Event event1, event2, event3;
+			ZonedDateTime date1Start, date2Start, date3Start, date4Start;
+			ZonedDateTime date1End, date2End, date3End, date4End;
+			Event event1, event2, event3, event4;
 			LocalDateTime now = LocalDateTime.now();
 
 			date1Start = ZonedDateTime.of(now, zoneId1);
 			date1End = ZonedDateTime.of(now.plusHours(1), zoneId1);
 			date2Start = ZonedDateTime.of(now.plusHours(2), zoneId1);
 			date2End = ZonedDateTime.of(now.plusHours(3), zoneId1);
-			date3Start = ZonedDateTime.of(now.plusHours(4), zoneId1);
-			date3End = ZonedDateTime.of(now.plusHours(5), zoneId1);
+			date3Start = date2Start.plusMinutes(20);
+			date3End = date2End.minusMinutes(20);
+			date4Start = ZonedDateTime.of(now.plusHours(4), zoneId1);
+			date4End = ZonedDateTime.of(now.plusHours(5), zoneId1);
 
 			user1 = users.save(user1);
 			user2 = users.save(user2);
 
 			event1 = new Event("event1", date1Start, date1End, zoneId, "details1", user1);
+			//assumed timeblock
 			event2 = new Event("event2", date2Start, date2End, zoneId, "details2", user2);
 			event3 = new Event("event3", date3Start, date3End, zoneId, "details3", user1);
+			//assumed timeblock
+			event4 = new Event("event4", date4Start, date4End, zoneId, "details4", user1);
 
 
+			events.save(event4);
 			events.save(event1);
 			events.save(event3);
 			events.save(event2);
@@ -246,7 +252,9 @@ public class TimelinePracticeApplicationTests {
 				if(everyOtherFlag) {
 					assertEquals(("event" + eventCounter), ((EventPlaceholder) event).name);
 					eventCounter++;
-					everyOtherFlag = false;
+					if (!((EventPlaceholder)event).name.equals("event2")){
+						everyOtherFlag = false;
+					}
 				} else {
 					assertEquals("timeblock", ((EventPlaceholder) event).name);
 					everyOtherFlag = true;
@@ -254,6 +262,7 @@ public class TimelinePracticeApplicationTests {
 			}
 
 		}catch (Exception ex){
+			ex.printStackTrace();
 			fail();
 		} finally {
 			events.deleteAll();
