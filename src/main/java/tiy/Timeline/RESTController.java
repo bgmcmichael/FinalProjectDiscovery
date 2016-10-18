@@ -134,9 +134,20 @@ public class RESTController {
         return contactList;
     }
 
+    @RequestMapping(path = "/test", method = RequestMethod.GET)
+    public ContactPlaceholder doTheThing(){
+        UserPlaceholder user1 = new UserPlaceholder("john", "doe", "john@doe.email");
+        UserPlaceholder user2 = new UserPlaceholder("jane", "doe", "jane@doe.email");
+
+        ContactPlaceholder testContact1 = new ContactPlaceholder(30, user1, user2, false);
+        
+        return testContact1;
+    }
+
     @RequestMapping(path = "/requestContact", method = RequestMethod.POST)
     public Failable requestContact(@RequestBody ContactPlaceholder contactBox) {
         String senderName, recieverName;
+        System.out.println(contactBox);
         System.out.println(contactBox.sender);
         System.out.println(contactBox.sender.username);
         senderName = contactBox.sender.username;
