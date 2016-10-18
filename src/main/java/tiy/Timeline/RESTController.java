@@ -131,11 +131,6 @@ public class RESTController {
         for (Contact contact: iterator){
             contactList.add(new ContactPlaceholder(contact));
         }
-        if (contactList.size() == 0){
-            ArrayList<Failable> error = new ArrayList<>();
-            error.add(new Error("No contacts"));
-            return error;
-        }
         return contactList;
     }
 
@@ -145,7 +140,7 @@ public class RESTController {
         System.out.println(contactBox.sender);
         System.out.println(contactBox.sender.username);
         senderName = contactBox.sender.username;
-        recieverName = contactBox.sender.username;
+        recieverName = contactBox.receiver.username;
         User sender = users.findByUsername(senderName);
         User receiver = users.findByUsername(recieverName);
         if (sender == null || receiver == null){

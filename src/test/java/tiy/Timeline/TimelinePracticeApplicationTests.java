@@ -276,8 +276,8 @@ public class TimelinePracticeApplicationTests {
 		try {
 			User user1 = new User("john", "doe", "john@doe.email");
 			User user2 = new User("jane", "doe", "jane@doe.email");
-			users.save(user1);
-			users.save(user2);
+			user1 = users.save(user1);
+			user2 = users.save(user2);
 			Contact testContact1 = new Contact(user1, user2, true);
 			Contact testContact2 = new Contact(user2, user1, true);
 
