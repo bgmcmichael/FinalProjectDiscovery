@@ -141,8 +141,11 @@ public class RESTController {
 
     @RequestMapping(path = "/requestContact", method = RequestMethod.POST)
     public Failable requestContact(@RequestBody ContactPlaceholder contactBox) {
-        User sender = users.findByUsername(contactBox.sender.username);
-        User receiver = users.findByUsername(contactBox.receiver.username);
+        String senderName, recieverName;
+        senderName = contactBox.sender.username;
+        recieverName = contactBox.sender.username;
+        User sender = users.findByUsername(senderName);
+        User receiver = users.findByUsername(recieverName);
         if (sender == null || receiver == null){
             return new Error("One or more Users could not be found");
         } else {
