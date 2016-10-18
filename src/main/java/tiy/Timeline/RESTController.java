@@ -142,6 +142,8 @@ public class RESTController {
     @RequestMapping(path = "/requestContact", method = RequestMethod.POST)
     public Failable requestContact(@RequestBody ContactPlaceholder contactBox) {
         String senderName, recieverName;
+        System.out.println(contactBox.sender);
+        System.out.println(contactBox.sender.username);
         senderName = contactBox.sender.username;
         recieverName = contactBox.sender.username;
         User sender = users.findByUsername(senderName);
