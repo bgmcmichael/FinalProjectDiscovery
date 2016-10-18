@@ -63,4 +63,11 @@ public class UserPlaceholder implements Failable{
         this.password = password;
         this.email = email;
     }
+
+    public UserPlaceholder(User user){
+        this.username = user.username;
+        this.password = user.password;
+        this.email = user.email;
+        this.id = user.id;
+    }
 }

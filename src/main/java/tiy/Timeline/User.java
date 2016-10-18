@@ -66,4 +66,6 @@ public class User implements Failable{
         this.password = password;
         this.email = email;
     }
+
+
 }

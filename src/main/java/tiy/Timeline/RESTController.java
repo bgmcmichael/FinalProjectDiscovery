@@ -123,29 +123,50 @@ public class RESTController {
         return timeBlocker.addTimeblocks(eventList);
     }
 
-    @RequestMapping(path = "/deleteContact", method = RequestMethod.POST)
-    public Failable deleteContact(@RequestBody UserPlaceholder receiverBox) {
-        User receiver = users.findByUsername(receiverBox.username);
-        Contact contact1 = contacts.findByReceiver(receiver);
-        Contact contact2 = contacts.findByReceiver(contact1.sender);
-        contacts.delete(contact1);
-        contacts.delete(contact2);
-
-        return new Error("Contact deleted");
+    @RequestMapping(path = "/contacts", method = RequestMethod.POST)
+    public ArrayList<Failable> getContacts(@RequestBody UserPlaceholder senderBox){
+        User sender = users.findByUsername(senderBox.username);
+        Iterable<Contact> iterator = contacts.findBySenderOrderByReceiver(sender);
+        ArrayList<Failable> contactList = new ArrayList<>();
+        for (Contact contact: iterator){
+            contactList.add(new ContactPlaceholder(contact));
+        }
+        if (contactList.size() == 0){
+            ArrayList<Failable> error = new ArrayList<>();
+            error.add(new Error("No contacts"));
+            return error;
+        }
+        return contactList;
     }
 
-    @RequestMapping(path = "/addContact", method = RequestMethod.POST)
-    public Failable addContact(@RequestBody UserPlaceholder userBox) {
-        User receiver = users.findByUsername(userBox.username);
-        Contact contact1 = contacts.findByReceiver(receiver);
-        User sender = contact1.sender;
-        Contact contact2 = new Contact(receiver, sender, true);
+    @RequestMapping(path = "/requestContact", method = RequestMethod.POST)
+    public Failable requestContact(@RequestBody ContactPlaceholder contactBox) {
+        User sender = users.findByUsername(contactBox.sender.username);
+        User receiver = users.findByUsername(contactBox.receiver.username);
+        if (sender == null || receiver == null){
+            return new Error("One or more Users could not be found");
+        } else {
+            Contact newContactRequest = new Contact(sender, receiver, false);
+            contacts.save(newContactRequest);
+        }
+        return new Error("request sent");
+    }
 
-        contact1.accepted = true;
-        contacts.save(contact1);
-        contacts.save(contact2);
+    @RequestMapping(path = "/confirmContact", method = RequestMethod.POST)
+    public Failable confirmContact(@RequestBody ContactPlaceholder contactBox) {
+        if (contactBox.accepted){
+            Contact original = contacts.findOne(contactBox.id);
+            original.accepted = true;
+            Contact newContact = new Contact(original.receiver, original.sender, true);
 
-        return new Error("Contact added");
+            contacts.save(original);
+            contacts.save(newContact);
+
+            return new Error("Contact accepted");
+        } else{
+            contacts.delete(contactBox.id);
+        }
+        return new Error("Contact declined");
     }
 
     @RequestMapping(path = "/mergeTimelines", method = RequestMethod.POST)

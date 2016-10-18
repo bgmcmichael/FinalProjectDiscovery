@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.*;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import static org.junit.Assert.*;
 
@@ -270,25 +271,132 @@ public class TimelinePracticeApplicationTests {
 		}
 	}
 
-//	@Test
-//	public void requestContactTest() {
-//		try{
-//			User user1 = new User("john", "doe", "john@doe.com");
-//			User user2 = new User("Jane", "doe", "Jane@doe.com");
-//
-//			UserPlaceholder user1Box = new UserPlaceholder(user1.username);
-//			UserPlaceholder user2Box = new UserPlaceholder(user2.username);
-//
-//			user1 = users.save(user1);
-//			user2 = users.save(user2);
-//
-//			Contact testContact = new Contact(user1Box, user2Box);
-//			Contact dbContact = contacts
-//		}catch (Exception ex) {
-//
-//		}finally {
-//
-//		}
-//	}
+	@Test
+	public void getContactsTest() throws Exception {
+		try {
+			User user1 = new User("john", "doe", "john@doe.email");
+			User user2 = new User("jane", "doe", "jane@doe.email");
+			users.save(user1);
+			users.save(user2);
+			Contact testContact1 = new Contact(user1, user2, true);
+			Contact testContact2 = new Contact(user2, user1, true);
 
+			contacts.save(testContact1);
+			contacts.save(testContact2);
+
+			ArrayList<Failable> contactList = testController.getContacts(new UserPlaceholder(user1.username));
+			assertEquals(1, contactList.size());
+			assertEquals("jane", ((ContactPlaceholder) contactList.get(0)).receiver.username);
+		}catch (Exception ex){
+			ex.printStackTrace();
+			fail();
+		} finally {
+			contacts.deleteAll();
+			users.deleteAll();
+		}
+	}
+
+	@Test
+	public void requestContactTestPass() throws Exception {
+		try {
+			User user1 = new User("john", "doe", "john@doe.email");
+			User user2 = new User("jane", "doe", "jane@doe.email");
+			user1 = users.save(user1);
+			user2 = users.save(user2);
+			Contact testContact1 = new Contact(user1, user2);
+			ContactPlaceholder contactBox = new ContactPlaceholder(testContact1);
+			Failable message = testController.requestContact(contactBox);
+
+			Iterable<Contact> temp = contacts.findAll();
+			ArrayList<Contact> contactList = new ArrayList<Contact>();
+			for (Contact contact : temp) {
+				contactList.add(contact);
+			}
+			assertEquals("request sent", ((Error) message).errorMessage);
+			assertEquals(1, contactList.size());
+			assertEquals("john", contactList.get(0).sender.username);
+		}catch (Exception ex){
+			ex.printStackTrace();
+			fail();
+		}finally {
+			contacts.deleteAll();
+			users.deleteAll();
+		}
+	}
+
+	@Test
+	public void requestContactTestFail() throws Exception {
+		try {
+			User user1 = new User("john", "doe", "john@doe.email");
+			User user2 = new User("jane", "doe", "jane@doe.email");
+
+			Contact testContact1 = new Contact(user1, user2);
+			ContactPlaceholder contactBox = new ContactPlaceholder(testContact1);
+			Failable message = testController.requestContact(contactBox);
+
+			Iterable<Contact> temp = contacts.findAll();
+			ArrayList<Contact> contactList = new ArrayList<Contact>();
+			for (Contact contact : temp) {
+				contactList.add(contact);
+			}
+			assertEquals("One or more Users could not be found", ((Error) message).errorMessage);
+
+		}catch (Exception ex){
+			ex.printStackTrace();
+			fail();
+		}finally {
+			contacts.deleteAll();
+			users.deleteAll();
+		}
+	}
+
+	@Test
+	public void confirmContactTest() throws Exception {
+		try {
+			User user1 = new User("john", "doe", "john@doe.email");
+			User user2 = new User("jane", "doe", "jane@doe.email");
+			user1 = users.save(user1);
+			user2 = users.save(user2);
+			Contact testContact1 = new Contact(user1, user2, false);
+			ContactPlaceholder contactBox = new ContactPlaceholder(testContact1);
+
+			testContact1 = contacts.save(testContact1);
+			ContactPlaceholder accepted, declined;
+			accepted = new ContactPlaceholder(testContact1.id, null, null, true);
+			testController.confirmContact(accepted);
+
+			Iterable<Contact> contactIterable = contacts.findAll();
+			ArrayList<Contact> contactList = new ArrayList<>();
+			for (Contact contact : contactIterable) {
+				contactList.add(contact);
+			}
+
+			assertEquals(2, contactList.size());
+			assertEquals("john", contactList.get(0).sender.username);
+			assertEquals("jane", contactList.get(1).sender.username);
+
+			contacts.deleteAll();
+
+			testContact1 = new Contact(user1, user2, false);
+			testContact1 = contacts.save(testContact1);
+			declined = new ContactPlaceholder(testContact1.id, null, null, false);
+
+			testController.confirmContact(declined);
+
+			Iterable<Contact> contactIterable2 = contacts.findAll();
+			ArrayList<Contact> contactList2 = new ArrayList<>();
+			for (Contact contact : contactIterable2) {
+				contactList2.add(contact);
+			}
+
+			assertEquals(0, contactList2.size());
+		}catch (Exception ex){
+			ex.printStackTrace();
+			fail();
+		}finally {
+			contacts.deleteAll();
+			users.deleteAll();
+		}
+
+	}
 }
