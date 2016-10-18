@@ -140,7 +140,7 @@ public class RESTController {
         UserPlaceholder user2 = new UserPlaceholder("jane", "doe", "jane@doe.email");
 
         ContactPlaceholder testContact1 = new ContactPlaceholder(30, user1, user2, false);
-        
+
         return testContact1;
     }
 

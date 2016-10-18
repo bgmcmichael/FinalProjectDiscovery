@@ -14,6 +14,38 @@ public class ContactPlaceholder implements Failable {
 
     boolean accepted;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public UserPlaceholder getSender() {
+        return sender;
+    }
+
+    public void setSender(UserPlaceholder sender) {
+        this.sender = sender;
+    }
+
+    public UserPlaceholder getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(UserPlaceholder receiver) {
+        this.receiver = receiver;
+    }
+
+    public boolean isAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(boolean accepted) {
+        this.accepted = accepted;
+    }
+
     public ContactPlaceholder() {
     }
 
