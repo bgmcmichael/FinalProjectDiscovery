@@ -276,17 +276,79 @@ public class TimelinePracticeApplicationTests {
 		try {
 			User user1 = new User("john", "doe", "john@doe.email");
 			User user2 = new User("jane", "doe", "jane@doe.email");
+			User user3 = new User("jack", "black", "jack@black.email");
 			user1 = users.save(user1);
 			user2 = users.save(user2);
+			user3 = users.save(user3);
 			Contact testContact1 = new Contact(user1, user2, true);
 			Contact testContact2 = new Contact(user2, user1, true);
+			Contact testContact3 = new Contact(user1, user3, false);
 
 			contacts.save(testContact1);
 			contacts.save(testContact2);
+			contacts.save(testContact3);
 
 			ArrayList<Failable> contactList = testController.getContacts(new UserPlaceholder(user1.username));
 			assertEquals(1, contactList.size());
 			assertEquals("jane", ((ContactPlaceholder) contactList.get(0)).receiver.username);
+		}catch (Exception ex){
+			ex.printStackTrace();
+			fail();
+		} finally {
+			contacts.deleteAll();
+			users.deleteAll();
+		}
+	}
+
+	@Test
+	public void getContactRequestsTest() throws Exception {
+		try {
+			User user1 = new User("john", "doe", "john@doe.email");
+			User user2 = new User("jane", "doe", "jane@doe.email");
+			User user3 = new User("jack", "black", "jack@black.email");
+			user1 = users.save(user1);
+			user2 = users.save(user2);
+			user3 = users.save(user3);
+			Contact testContact1 = new Contact(user1, user2, true);
+			Contact testContact2 = new Contact(user2, user1, true);
+			Contact testContact3 = new Contact(user1, user3, false);
+
+			contacts.save(testContact1);
+			contacts.save(testContact2);
+			contacts.save(testContact3);
+
+			ArrayList<Failable> contactList = testController.getContactRequests(new UserPlaceholder(user3.username));
+			assertEquals(1, contactList.size());
+			assertEquals("jack", ((ContactPlaceholder) contactList.get(0)).receiver.username);
+		}catch (Exception ex){
+			ex.printStackTrace();
+			fail();
+		} finally {
+			contacts.deleteAll();
+			users.deleteAll();
+		}
+	}
+
+	@Test
+	public void getPendingContactsTest() throws Exception {
+		try {
+			User user1 = new User("john", "doe", "john@doe.email");
+			User user2 = new User("jane", "doe", "jane@doe.email");
+			User user3 = new User("jack", "black", "jack@black.email");
+			user1 = users.save(user1);
+			user2 = users.save(user2);
+			user3 = users.save(user3);
+			Contact testContact1 = new Contact(user1, user2, true);
+			Contact testContact2 = new Contact(user2, user1, true);
+			Contact testContact3 = new Contact(user1, user3, false);
+
+			contacts.save(testContact1);
+			contacts.save(testContact2);
+			contacts.save(testContact3);
+
+			ArrayList<Failable> contactList = testController.getPendingContacts(new UserPlaceholder(user1.username));
+			assertEquals(1, contactList.size());
+			assertEquals("jack", ((ContactPlaceholder) contactList.get(0)).receiver.username);
 		}catch (Exception ex){
 			ex.printStackTrace();
 			fail();
@@ -358,6 +420,7 @@ public class TimelinePracticeApplicationTests {
 		try {
 			User user1 = new User("john", "doe", "john@doe.email");
 			User user2 = new User("jane", "doe", "jane@doe.email");
+
 			user1 = users.save(user1);
 			user2 = users.save(user2);
 			Contact testContact1 = new Contact(user1, user2, false);
