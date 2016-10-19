@@ -126,7 +126,29 @@ public class RESTController {
     @RequestMapping(path = "/contacts", method = RequestMethod.POST)
     public ArrayList<Failable> getContacts(@RequestBody UserPlaceholder senderBox){
         User sender = users.findByUsername(senderBox.username);
-        Iterable<Contact> iterator = contacts.findBySenderOrderByReceiver(sender);
+        Iterable<Contact> iterator = contacts.findBySenderAndAcceptedTrueOrderByReceiverAsc(sender);
+        ArrayList<Failable> contactList = new ArrayList<>();
+        for (Contact contact: iterator){
+            contactList.add(new ContactPlaceholder(contact));
+        }
+        return contactList;
+    }
+
+    @RequestMapping(path = "/pendingContacts", method = RequestMethod.POST)
+    public ArrayList<Failable> getPendingContacts(@RequestBody UserPlaceholder senderBox){
+        User sender = users.findByUsername(senderBox.username);
+        Iterable<Contact> iterator = contacts.findBySenderAndAcceptedFalseOrderByReceiverAsc(sender);
+        ArrayList<Failable> contactList = new ArrayList<>();
+        for (Contact contact: iterator){
+            contactList.add(new ContactPlaceholder(contact));
+        }
+        return contactList;
+    }
+
+    @RequestMapping(path = "/contactRequests", method = RequestMethod.POST)
+    public ArrayList<Failable> getContactRequests(@RequestBody UserPlaceholder receiverBox){
+        User receiver = users.findByUsername(receiverBox.username);
+        Iterable<Contact> iterator = contacts.findByReceiverAndAcceptedFalseOrderBySenderAsc(receiver);
         ArrayList<Failable> contactList = new ArrayList<>();
         for (Contact contact: iterator){
             contactList.add(new ContactPlaceholder(contact));
