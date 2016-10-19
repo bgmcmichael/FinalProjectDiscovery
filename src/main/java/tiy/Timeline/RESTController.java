@@ -169,20 +169,18 @@ public class RESTController {
     @RequestMapping(path = "/requestContact", method = RequestMethod.POST)
     public Failable requestContact(@RequestBody ContactPlaceholder contactBox) {
         String senderName, recieverName;
-        System.out.println(contactBox);
-        System.out.println(contactBox.sender);
-        System.out.println(contactBox.sender.username);
         senderName = contactBox.sender.username;
         recieverName = contactBox.receiver.username;
         User sender = users.findByUsername(senderName);
         User receiver = users.findByUsername(recieverName);
         if (sender == null || receiver == null){
             return new Error("One or more Users could not be found");
-        } else {
+        } else if (contacts.findBySenderAndReceiver(sender, receiver) == null){
             Contact newContactRequest = new Contact(sender, receiver, false);
             contacts.save(newContactRequest);
+            return new Error("request sent");
         }
-        return new Error("request sent");
+        return new Error("Request has already been sent");
     }
 
     @RequestMapping(path = "/confirmContact", method = RequestMethod.POST)

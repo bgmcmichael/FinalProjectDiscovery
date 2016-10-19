@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public interface ContactRepository extends CrudRepository<Contact, Integer> {
     Contact findByReceiver(User receiver);
     Contact findBySender(User sender);
+    Contact findBySenderAndReceiver(User sender, User receiver);
     ArrayList<Contact> findBySenderOrderByReceiver(User sender);
     ArrayList<Contact> findByReceiverOrderBySender(User receiver);
     ArrayList<Contact> findBySenderAndAcceptedTrueOrderByReceiverAsc(User sender);

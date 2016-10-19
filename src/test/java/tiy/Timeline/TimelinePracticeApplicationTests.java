@@ -392,8 +392,6 @@ public class TimelinePracticeApplicationTests {
 			User user1 = new User("john", "doe", "john@doe.email");
 			User user2 = new User("jane", "doe", "jane@doe.email");
 
-//			user1 = users.save(user1);
-//			user2 = users.save(user2);
 
 			Contact testContact1 = new Contact(user1, user2);
 			ContactPlaceholder contactBox = new ContactPlaceholder(testContact1);
@@ -404,8 +402,24 @@ public class TimelinePracticeApplicationTests {
 			for (Contact contact : temp) {
 				contactList.add(contact);
 			}
+			assertEquals(0, contactList.size());
 			assertEquals("One or more Users could not be found", ((Error) message).errorMessage);
 
+			user1 = users.save(user1);
+			user2 = users.save(user2);
+			testContact1 = new Contact(user1, user2, false);
+			contactBox = new ContactPlaceholder(testContact1);
+			contacts.save(testContact1);
+			message = testController.requestContact(contactBox);
+
+			temp = contacts.findAll();
+			contactList = new ArrayList<Contact>();
+			for (Contact contact : temp) {
+				contactList.add(contact);
+			}
+
+			assertEquals(1, contactList.size());
+			assertEquals("Request has already been sent", ((Error) message).errorMessage);
 		}catch (Exception ex){
 			ex.printStackTrace();
 			fail();
