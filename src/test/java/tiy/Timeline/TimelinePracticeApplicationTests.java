@@ -389,7 +389,7 @@ public class TimelinePracticeApplicationTests {
 	@Test
 	public void requestContactTestFail() throws Exception {
 		try {
-			User user1 = new User("john", "doe", "john@doe.email");
+			User user1 = new User("allyson", "fox", "allyson@fox.email");
 			User user2 = new User("jane", "doe", "jane@doe.email");
 
 
