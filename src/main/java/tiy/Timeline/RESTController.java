@@ -185,13 +185,28 @@ public class RESTController {
 
     @RequestMapping(path = "/confirmContact", method = RequestMethod.POST)
     public Failable confirmContact(@RequestBody ContactPlaceholder contactBox) {
+        Contact contact = contacts.findOne(contactBox.id);
+        User sender = contact.sender;
+        User receiver = contact.receiver;
+        Contact doesContactExist = null;
+        try {
+            doesContactExist = contacts.findBySenderAndReceiver(receiver, sender);
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
         if (contactBox.accepted){
             Contact original = contacts.findOne(contactBox.id);
             original.accepted = true;
-            Contact newContact = new Contact(original.receiver, original.sender, true);
+            if (doesContactExist != null){
+                doesContactExist.accepted = true;
+                contacts.save(original);
+                contacts.save(doesContactExist);
+            } else {
+                Contact newContact = new Contact(original.receiver, original.sender, true);
 
-            contacts.save(original);
-            contacts.save(newContact);
+                contacts.save(original);
+                contacts.save(newContact);
+            }
 
             return new Error("Contact accepted");
         } else{
