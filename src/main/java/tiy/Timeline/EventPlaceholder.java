@@ -23,6 +23,8 @@ public class EventPlaceholder implements Failable{
 
     String details;
 
+    boolean privacyStatus;
+
     UserPlaceholder owner;
 
     public int getId() {
@@ -73,6 +75,14 @@ public class EventPlaceholder implements Failable{
         this.details = details;
     }
 
+    public boolean isPrivacyStatus() {
+        return privacyStatus;
+    }
+
+    public void setPrivacyStatus(boolean privacyStatus) {
+        this.privacyStatus = privacyStatus;
+    }
+
     public UserPlaceholder getOwner() {
         return owner;
     }
@@ -105,18 +115,20 @@ public class EventPlaceholder implements Failable{
         } catch (Exception ex){
             tempString = "";
         }
+        this.privacyStatus = event.privacyStatus;
         this.owner = new UserPlaceholder(tempString);
         this.owner.id = tempInt;
         System.out.println("");
 
     }
 
-    public EventPlaceholder(String name, String startDate, String endDate, String timezoneCreatedIn, String details, UserPlaceholder owner) {
+    public EventPlaceholder(String name, String startDate, String endDate, String timezoneCreatedIn, String details, boolean privacyStatus, UserPlaceholder owner) {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.timezoneCreatedIn = timezoneCreatedIn;
         this.details = details;
+        this.privacyStatus = privacyStatus;
         this.owner = owner;
     }
 }

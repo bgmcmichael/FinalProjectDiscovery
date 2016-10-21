@@ -88,7 +88,7 @@ public class TimelinePracticeApplicationTests {
 			LocalDateTime now = LocalDateTime.now();
 
 			date1 = ZonedDateTime.of(now, zoneId1);
-			event1 = new EventPlaceholder("event1", "2016-05-06T02:15:00Z", "2016-05-06T03:15:00Z", zoneId, "details1", userBox);
+			event1 = new EventPlaceholder("event1", "2016-05-06T02:15:00Z", "2016-05-06T03:15:00Z", zoneId, "details1", true, userBox);
 			Failable dbEvent = testController.addEvent(event1);
 			assertEquals(event1.name,((EventPlaceholder)dbEvent).getName());
 
@@ -117,9 +117,9 @@ public class TimelinePracticeApplicationTests {
 
 			user = users.save(user);
 
-			event1 = new Event("event1", date1, date1.plusHours(1), zoneId, "details1", user);
-			event2 = new Event("event2", date2, date2.plusHours(1), zoneId, "details2", user);
-			event3 = new Event("event3", date3, date3.plusHours(1), zoneId, "details3", user);
+			event1 = new Event("event1", date1, date1.plusHours(1), zoneId, "details1", true, user);
+			event2 = new Event("event2", date2, date2.plusHours(1), zoneId, "details2", true, user);
+			event3 = new Event("event3", date3, date3.plusHours(1), zoneId, "details3", true, user);
 
 			events.save(event1);
 			events.save(event3);
@@ -164,9 +164,9 @@ public class TimelinePracticeApplicationTests {
 
 			user = users.save(user);
 
-			event1 = new Event("event1", date1Start, date1End, zoneId, "details1", user);
-			event2 = new Event("event2", date2Start, date2End, zoneId, "details2", user);
-			event3 = new Event("event3", date3Start, date3End, zoneId, "details3", user);
+			event1 = new Event("event1", date1Start, date1End, zoneId, "details1", true, user);
+			event2 = new Event("event2", date2Start, date2End, zoneId, "details2", true, user);
+			event3 = new Event("event3", date3Start, date3End, zoneId, "details3", true, user);
 
 			events.save(event1);
 			events.save(event3);
@@ -226,12 +226,12 @@ public class TimelinePracticeApplicationTests {
 			user1 = users.save(user1);
 			user2 = users.save(user2);
 
-			event1 = new Event("event1", date1Start, date1End, zoneId, "details1", user1);
+			event1 = new Event("event1", date1Start, date1End, zoneId, "details1", true, user1);
 			//assumed timeblock
-			event2 = new Event("event2", date2Start, date2End, zoneId, "details2", user2);
-			event3 = new Event("event3", date3Start, date3End, zoneId, "details3", user1);
+			event2 = new Event("event2", date2Start, date2End, zoneId, "details2", true, user2);
+			event3 = new Event("event3", date3Start, date3End, zoneId, "details3", true, user1);
 			//assumed timeblock
-			event4 = new Event("event4", date4Start, date4End, zoneId, "details4", user1);
+			event4 = new Event("event4", date4Start, date4End, zoneId, "details4", true, user1);
 
 
 			events.save(event4);

@@ -100,6 +100,7 @@ public class RESTController {
         newEvent.name = newEventPlaceholder.name;
         newEvent.owner = tempUser;
         newEvent.timezoneCreatedIn = newEventPlaceholder.timezoneCreatedIn;
+        newEvent.privacyStatus = newEventPlaceholder.privacyStatus;
         System.out.println("timezonecreatedin = " + newEvent.getTimezoneCreatedIn());
         System.out.println("saving new event");
         newEvent = events.save(newEvent);

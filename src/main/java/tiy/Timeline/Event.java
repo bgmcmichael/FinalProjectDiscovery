@@ -32,6 +32,9 @@ public class Event implements Failable{
     @Column
     String details;
 
+    @Column
+    boolean privacyStatus;
+
     @ManyToOne
     User owner;
 
@@ -83,6 +86,14 @@ public class Event implements Failable{
         this.details = details;
     }
 
+    public boolean isPrivacyStatus() {
+        return privacyStatus;
+    }
+
+    public void setPrivacyStatus(boolean privacyStatus) {
+        this.privacyStatus = privacyStatus;
+    }
+
     public User getOwner() {
         return owner;
     }
@@ -94,12 +105,13 @@ public class Event implements Failable{
     public Event() {
     }
 
-    public Event(String name, ZonedDateTime startDate, ZonedDateTime endDate, String timezoneCreatedIn, String details, User owner) {
+    public Event(String name, ZonedDateTime startDate, ZonedDateTime endDate, String timezoneCreatedIn, String details, boolean privacyStatus, User owner) {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.timezoneCreatedIn = timezoneCreatedIn;
         this.details = details;
+        this.privacyStatus = privacyStatus;
         this.owner = owner;
     }
 }
