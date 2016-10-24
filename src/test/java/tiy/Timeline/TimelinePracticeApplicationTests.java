@@ -91,7 +91,13 @@ public class TimelinePracticeApplicationTests {
 			event1 = new EventPlaceholder("event1", "2016-05-06T02:15:00Z", "2016-05-06T03:15:00Z", zoneId, "details1", true, userBox);
 			Failable dbEvent = testController.addEvent(event1);
 			assertEquals(event1.name,((EventPlaceholder)dbEvent).getName());
+			int dbId = ((EventPlaceholder) dbEvent).id;
+			dbEvent = new EventPlaceholder("event2", "2016-05-06T03:15:00Z", "2016-05-06T04:15:00Z", zoneId, "details2", true, userBox);
+			((EventPlaceholder)dbEvent).id = dbId;
+			Failable dbEvent2 = testController.editEvent((EventPlaceholder)dbEvent);
 
+			assertEquals(((EventPlaceholder) dbEvent).id, ((EventPlaceholder)dbEvent2).id);
+			assertEquals("2016-05-06T03:15:00Z", ((EventPlaceholder) dbEvent2).startDate);
 		}catch (Exception ex){
 			fail();
 		}finally {

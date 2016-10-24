@@ -114,6 +114,31 @@ public class RESTController {
         return newEventPlaceholder;
     }
 
+    @RequestMapping(path = "/editEvent", method = RequestMethod.POST)
+    public Failable editEvent(@RequestBody EventPlaceholder newEventPlaceholder) throws Exception {
+        Event event = events.findOne(newEventPlaceholder.id);
+        System.out.println(newEventPlaceholder.timezoneCreatedIn);
+        newEventPlaceholder.startDate = newEventPlaceholder.startDate + "[GMT]";
+        newEventPlaceholder.endDate = newEventPlaceholder.endDate + "[GMT]";
+        ZonedDateTime startDateZoned = ZonedDateTime.parse(newEventPlaceholder.startDate, DateTimeFormatter.ISO_ZONED_DATE_TIME);
+        ZonedDateTime endDateZoned = ZonedDateTime.parse(newEventPlaceholder.endDate, DateTimeFormatter.ISO_ZONED_DATE_TIME);
+
+        User tempUser = users.findByUsername(newEventPlaceholder.owner.username);
+
+        event.startDate = startDateZoned;
+        event.endDate = endDateZoned;
+        event.details = newEventPlaceholder.details;
+        event.name = newEventPlaceholder.name;
+        event.owner = tempUser;
+        event.timezoneCreatedIn = newEventPlaceholder.timezoneCreatedIn;
+        event.privacyStatus = newEventPlaceholder.privacyStatus;
+        event = events.save(event);
+
+        newEventPlaceholder = new EventPlaceholder(event);
+
+        return newEventPlaceholder;
+    }
+
     @RequestMapping(path = "/events", method = RequestMethod.POST)
     public ArrayList<Failable> getEvents(@RequestBody UserPlaceholder userBox) throws Exception {
         User eventOwner = users.findByUsername(userBox.username);
