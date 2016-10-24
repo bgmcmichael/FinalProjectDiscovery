@@ -76,7 +76,7 @@ public class TimelinePracticeApplicationTests {
 	}
 
 	@Test
-	public void addEventTest() throws Exception {
+	public void addOrEditEventTest() throws Exception {
 		try {
 			User user = new User("john", "doe", "john@doe.com");
 			user = users.save(user);
@@ -93,11 +93,15 @@ public class TimelinePracticeApplicationTests {
 			assertEquals(event1.name,((EventPlaceholder)dbEvent).getName());
 			int dbId = ((EventPlaceholder) dbEvent).id;
 			dbEvent = new EventPlaceholder("event2", "2016-05-06T03:15:00Z", "2016-05-06T04:15:00Z", zoneId, "details2", true, userBox);
+			Failable errortest = testController.editEvent((EventPlaceholder)dbEvent);
+			assertEquals("Event does not exist to be edited",((Error)errortest).errorMessage);
 			((EventPlaceholder)dbEvent).id = dbId;
 			Failable dbEvent2 = testController.editEvent((EventPlaceholder)dbEvent);
 
 			assertEquals(((EventPlaceholder) dbEvent).id, ((EventPlaceholder)dbEvent2).id);
 			assertEquals("2016-05-06T03:15:00Z", ((EventPlaceholder) dbEvent2).startDate);
+
+
 		}catch (Exception ex){
 			fail();
 		}finally {

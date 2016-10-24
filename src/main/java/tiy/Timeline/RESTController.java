@@ -116,7 +116,11 @@ public class RESTController {
 
     @RequestMapping(path = "/editEvent", method = RequestMethod.POST)
     public Failable editEvent(@RequestBody EventPlaceholder newEventPlaceholder) throws Exception {
-        Event event = events.findOne(newEventPlaceholder.id);
+        Event event = null;
+        event = events.findOne(newEventPlaceholder.id);
+        if (event == null){
+            return new Error("Event does not exist to be edited");
+        }
         System.out.println(newEventPlaceholder.timezoneCreatedIn);
         newEventPlaceholder.startDate = newEventPlaceholder.startDate + "[GMT]";
         newEventPlaceholder.endDate = newEventPlaceholder.endDate + "[GMT]";
