@@ -398,6 +398,9 @@ public class RESTController {
         event = new Event("church", sunday.plusHours(8), sunday.plusHours(11), ZoneId.systemDefault().toString(), "Singing in the choir if you guys want to come see", false, John);
         events.save(event);
 
+        Contact joanAsksJohn = new Contact(Joan, John, false);
+        contacts.save(joanAsksJohn);
+
 //        System.out.println(monday.toString());
 //        System.out.println(tuesday.toString());
 //        System.out.println(wednesday.toString());
