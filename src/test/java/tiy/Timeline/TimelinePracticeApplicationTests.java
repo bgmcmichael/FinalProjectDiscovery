@@ -490,8 +490,8 @@ public class TimelinePracticeApplicationTests {
 
 	}
 
-	@Test
-	public void generateDemoData() throws Exception {
-		testController.createDemo();
-	}
+//	@Test
+//	public void generateDemoData() throws Exception {
+//		testController.createDemo();
+//	}
 }
