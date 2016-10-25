@@ -37,7 +37,11 @@ public class TimeBlocker {
                     if (nextEvent.startDate.isAfter(currentEvent.endDate)) {
                         Event timeblock = new Event();
                         timeblock.name = "timeblock";
-                        timeblock.startDate = currentEvent.endDate;
+                        if (currentEvent.endDate.isBefore(dateHolder.endDate)){
+                            timeblock.startDate = dateHolder.endDate;
+                        } else {
+                            timeblock.startDate = currentEvent.endDate;
+                        }
                         timeblock.endDate = nextEvent.startDate;
                         EventPlaceholder timeblockBox = new EventPlaceholder(timeblock);
                         eventPlaceholderList.add(timeblockBox);
