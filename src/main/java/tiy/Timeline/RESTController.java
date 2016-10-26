@@ -272,15 +272,15 @@ public class RESTController {
         contacts.deleteAll();
         users.deleteAll();
 
-        User John, Joan, Jude;
+        User Sampson, Danny, Ben;
 
-        John = new User("john", "password", "john@email.com");
-        Joan = new User("joan", "password", "joan@email.com");
-        Jude = new User("jude", "password", "jude@email.com");
+        Sampson = new User("sampson", "password", "sampson@email.com");
+        Danny = new User("danny", "password", "danny@email.com");
+        Ben = new User("ben", "password", "ben@email.com");
 
-        users.save(John);
-        users.save(Joan);
-        users.save(Jude);
+        users.save(Sampson);
+        users.save(Danny);
+        users.save(Ben);
 
         ZonedDateTime today = ZonedDateTime.now(ZoneOffset.UTC);
         GregorianCalendar todayDate = GregorianCalendar.from(today);
@@ -349,62 +349,62 @@ public class RESTController {
         ZonedDateTime tempdate;
         //MONDAY
         //John
-        Event event = new Event("work", monday.plusHours(9), monday.plusHours(17), ZoneId.systemDefault().toString(), "Casa de Waffle", false, John);
+        Event event = new Event("work", monday.plusHours(9), monday.plusHours(17), ZoneId.systemDefault().toString(), "Casa de Waffle", false, Sampson);
         events.save(event);
         tempdate = monday.plusHours(17);
         tempdate = tempdate.plusMinutes(30);
-        event = new Event("Traveling to Vet", monday.plusHours(17), tempdate, ZoneId.systemDefault().toString(), "spike's surgery is today, can't miss this guys", false, John);
+        event = new Event("Traveling to Vet", monday.plusHours(17), tempdate, ZoneId.systemDefault().toString(), "spike's surgery is today, can't miss this guys", false, Sampson);
         events.save(event);
-        event = new Event("Vet visit", tempdate, monday.plusHours(19), ZoneId.systemDefault().toString(), "spike's surgery is today, can't miss this guys", false, John);
+        event = new Event("Vet visit", tempdate, monday.plusHours(19), ZoneId.systemDefault().toString(), "spike's surgery is today, can't miss this guys", false, Sampson);
         events.save(event);
         //Joan
-        event = new Event("work", monday.plusHours(23), monday.plusHours(31), ZoneId.systemDefault().toString(), "On Call at tech support", false, Joan);
+        event = new Event("work", monday.plusHours(23), monday.plusHours(31), ZoneId.systemDefault().toString(), "On Call at tech support", false, Danny);
         events.save(event);
         //Jude
-        event = new Event("Consulting: Fiserv", monday.plusHours(14), monday.plusHours(22), ZoneId.systemDefault().toString(), "Due diligence meeting today", false, Jude);
+        event = new Event("Consulting: Fiserv", monday.plusHours(14), monday.plusHours(22), ZoneId.systemDefault().toString(), "Due diligence meeting today", false, Ben);
         events.save(event);
 
         //TUESDAY
         //John
-        event = new Event("work", tuesday.plusHours(9), tuesday.plusHours(25), ZoneId.systemDefault().toString(), "got scheduled for a double shift", false, John);
+        event = new Event("work", tuesday.plusHours(9), tuesday.plusHours(25), ZoneId.systemDefault().toString(), "got scheduled for a double shift", false, Sampson);
         events.save(event);
         //Joan
-        event = new Event("work", tuesday.plusHours(23), tuesday.plusHours(31), ZoneId.systemDefault().toString(), "On Call at tech support", false, Joan);
+        event = new Event("work", tuesday.plusHours(23), tuesday.plusHours(31), ZoneId.systemDefault().toString(), "On Call at tech support", false, Danny);
         events.save(event);
         //Jude
-        event = new Event("Consulting: Fiserv", tuesday.plusHours(14), tuesday.plusHours(22), ZoneId.systemDefault().toString(), "", false, Jude);
+        event = new Event("Consulting: Fiserv", tuesday.plusHours(14), tuesday.plusHours(22), ZoneId.systemDefault().toString(), "", false, Ben);
         events.save(event);
 
         //WEDNESDAY
         //John
-        event = new Event("grocery shopping", wednesday.plusHours(7), wednesday.plusHours(9), ZoneId.systemDefault().toString(), "eggs, 1 gallon milk, 2 creamers, 2 ribeye's, bottle of wine (I think she said she liked 13 hands chard?).", false, John);
+        event = new Event("grocery shopping", wednesday.plusHours(7), wednesday.plusHours(9), ZoneId.systemDefault().toString(), "eggs, 1 gallon milk, 2 creamers, 2 ribeye's, bottle of wine (I think she said she liked 13 hands chard?).", false, Sampson);
         events.save(event);
-        event = new Event("work", wednesday.plusHours(9), wednesday.plusHours(17), ZoneId.systemDefault().toString(), "Casa de Waffle", false, John);
+        event = new Event("work", wednesday.plusHours(9), wednesday.plusHours(17), ZoneId.systemDefault().toString(), "Casa de Waffle", false, Sampson);
         events.save(event);
-        event = new Event("choir practice", wednesday.plusHours(18), wednesday.plusHours(21), ZoneId.systemDefault().toString(), "I added an hour for the drive home guys", false, John);
+        event = new Event("choir practice", wednesday.plusHours(18), wednesday.plusHours(21), ZoneId.systemDefault().toString(), "I added an hour for the drive home guys", false, Sampson);
         events.save(event);
         //Joan
-        event = new Event("work", wednesday.plusHours(23), wednesday.plusHours(31), ZoneId.systemDefault().toString(), "On Call at tech support", false, Joan);
+        event = new Event("work", wednesday.plusHours(23), wednesday.plusHours(31), ZoneId.systemDefault().toString(), "On Call at tech support", false, Danny);
         events.save(event);
         //Jude
 
         //THURSDAY
         //John
-        event = new Event("work", thursday.plusHours(9), thursday.plusHours(17), ZoneId.systemDefault().toString(), "Casa de Waffle", false, John);
+        event = new Event("work", thursday.plusHours(9), thursday.plusHours(17), ZoneId.systemDefault().toString(), "Casa de Waffle", false, Sampson);
         events.save(event);
-        event = new Event("datenight", thursday.plusHours(17), thursday.plusHours(21), ZoneId.systemDefault().toString(), "don't forget the steak recipe!", true, John);
+        event = new Event("datenight", thursday.plusHours(17), thursday.plusHours(21), ZoneId.systemDefault().toString(), "don't forget the steak recipe!", true, Sampson);
         events.save(event);
         //Joan
-        event = new Event("work", thursday.plusHours(23), thursday.plusHours(31), ZoneId.systemDefault().toString(), "On Call at tech support", false, Joan);
+        event = new Event("work", thursday.plusHours(23), thursday.plusHours(31), ZoneId.systemDefault().toString(), "On Call at tech support", false, Danny);
         events.save(event);
         //Jude
 
         //FRIDAY
         //John
-        event = new Event("work", friday.plusHours(9), friday.plusHours(17), ZoneId.systemDefault().toString(), "Casa de Waffle", false, John);
+        event = new Event("work", friday.plusHours(9), friday.plusHours(17), ZoneId.systemDefault().toString(), "Casa de Waffle", false, Sampson);
         events.save(event);
         //Joan
-        event = new Event("work", friday.plusHours(23), friday.plusHours(31), ZoneId.systemDefault().toString(), "On Call at tech support", false, Joan);
+        event = new Event("work", friday.plusHours(23), friday.plusHours(31), ZoneId.systemDefault().toString(), "On Call at tech support", false, Danny);
         events.save(event);
         //Jude
 
@@ -415,14 +415,14 @@ public class RESTController {
 
         //SUNDAY
         //John
-        event = new Event("church", sunday.plusHours(8), sunday.plusHours(11), ZoneId.systemDefault().toString(), "Singing in the choir if you guys want to come see", false, John);
+        event = new Event("church", sunday.plusHours(8), sunday.plusHours(11), ZoneId.systemDefault().toString(), "Singing in the choir if you guys want to come see", false, Sampson);
         events.save(event);
         //Joan
         //Jude
 
-        Contact joanAsksJohn = new Contact(Joan, John, false);
-        Contact joanAsksJude = new Contact(Joan, Jude, true);
-        Contact judeAsksJoan = new Contact(Jude, Joan, true);
+        Contact joanAsksJohn = new Contact(Danny, Sampson, false);
+        Contact joanAsksJude = new Contact(Danny, Ben, true);
+        Contact judeAsksJoan = new Contact(Ben, Danny, true);
         contacts.save(joanAsksJude);
         contacts.save(judeAsksJoan);
         contacts.save(joanAsksJohn);

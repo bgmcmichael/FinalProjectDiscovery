@@ -13,7 +13,7 @@ public class EventUser implements Failable {
     int id;
 
     @ManyToOne
-    User atendee;
+    User attendee;
 
     @ManyToOne
     Event event;
@@ -29,12 +29,12 @@ public class EventUser implements Failable {
         this.id = id;
     }
 
-    public User getAtendee() {
-        return atendee;
+    public User getAttendee() {
+        return attendee;
     }
 
-    public void setAtendee(User atendee) {
-        this.atendee = atendee;
+    public void setAttendee(User attendee) {
+        this.attendee = attendee;
     }
 
     public Event getEvent() {
